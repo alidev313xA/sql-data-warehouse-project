@@ -88,3 +88,27 @@ CREATE TABLE bronze.erp_px_cat_g1v2 (
     maintenance  NVARCHAR(50)
 );
 GO
+
+IF OBJECT_ID('bronze.api_cust_info', 'U') IS NOT NULL
+    DROP TABLE bronze.api_cust_info;
+GO
+
+CREATE TABLE bronze.api_cust_info (
+    id               NVARCHAR(50),
+    cst_key             NVARCHAR(50),
+    phone_number		NVARCHAR(50),
+);
+GO
+
+
+IF OBJECT_ID('bronze.api_prod_info', 'U') IS NOT NULL
+    DROP TABLE bronze.api_prod_info;
+GO
+
+CREATE TABLE bronze.api_prod_info (
+    id           NVARCHAR(50),
+    cat          NVARCHAR(50),
+    brand       NVARCHAR(50),
+    manufacturer  NVARCHAR(50)
+);
+GO
