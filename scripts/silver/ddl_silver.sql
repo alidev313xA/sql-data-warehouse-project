@@ -95,4 +95,27 @@ CREATE TABLE silver.erp_px_cat_g1v2 (
     dwh_create_date DATETIME2 DEFAULT GETDATE()
 );
 GO
+-- Creating API Tables ---- 
 
+	IF OBJECT_ID('silver.api_cust_info', 'U') IS NOT NULL
+    DROP TABLE silver.api_cust_info;
+GO
+
+CREATE TABLE silver.api_cust_info (
+    cst_id                 NVARCHAR(50),
+	cst_key                 NVARCHAR(50),
+	cst_phone_number                NVARCHAR(50) 
+);
+GO
+	
+IF OBJECT_ID('silver.api_prd_info', 'U') IS NOT NULL
+    DROP TABLE silver.api_prd_info;
+GO
+
+CREATE TABLE silver.api_prd_info (
+    prd_id                 NVARCHAR(50),
+	prd_cat                NVARCHAR(50),
+    prd_brand                 NVARCHAR(50),
+	prd_manufacturer                 NVARCHAR(50),
+);
+GO
