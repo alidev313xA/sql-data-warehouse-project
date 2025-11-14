@@ -17,7 +17,7 @@ Usage Example:
     EXEC Silver.load_silver;
 ===============================================================================
 */
-
+GO
 CREATE OR ALTER PROCEDURE silver.load_silver AS
 BEGIN
     DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME; 
@@ -235,6 +235,49 @@ BEGIN
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
+
+		-- Loading silver.api_cust_info
+        SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: silver.api_cust_info';
+		TRUNCATE TABLE silver.crm_cust_info;
+		PRINT '>> Inserting Data Into: silver.api_cust_info';
+		INSERT INTO silver.api_cust_info (
+			cst_id, 
+			cst_key, 
+			cst_phone_number
+		)
+		SELECT
+			id,
+			cst_key,
+			phone_number
+		FROM bronze.api_cust_info
+		WHERE id IS NOT NULL
+
+		SET @end_time = GETDATE();
+        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+        PRINT '>> -------------';
+
+		-- Loading silver.api_prd_info
+        SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: silver.api_prd_info';
+		TRUNCATE TABLE silver.api_prd_info;
+		PRINT '>> Inserting Data Into: silver.api_prd_info';
+		INSERT INTO silver.api_prd_info (
+			prd_id,
+			prd_cat,
+			prd_brand, 
+			prd_manufacturer
+		)
+		SELECT
+			id,
+			cat,
+			brand,
+			manufacturer
+		FROM bronze.api_prod_info;
+	    SET @end_time = GETDATE();
+        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+        PRINT '>> -------------';
+
 		SET @batch_end_time = GETDATE();
 		PRINT '=========================================='
 		PRINT 'Loading Silver Layer is Completed';
@@ -251,3 +294,6 @@ BEGIN
 		PRINT '=========================================='
 	END CATCH
 END
+
+
+
