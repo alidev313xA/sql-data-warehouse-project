@@ -239,7 +239,7 @@ BEGIN
 		-- Loading silver.api_cust_info
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.api_cust_info';
-		TRUNCATE TABLE silver.crm_cust_info;
+		TRUNCATE TABLE silver.api_cust_info;
 		PRINT '>> Inserting Data Into: silver.api_cust_info';
 		INSERT INTO silver.api_cust_info (
 			cst_id, 
